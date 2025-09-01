@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Task Manager</title>
+    </head>
+    <body>
+        <h1>Task Manager</h1>
+        <ul id="task-list"></ul>
+        <input type="text" id="new-task" placeholder="Add new task">
+        <button onclick="addTask()">Add</button>
+        <script>
+            const API_URL = 'http://localhost:5000/tasks';
+
+            async function fetch_tasks(){
+                const response = await fetch(API_URL);
+                const tasks  = await response.json();
+                const list  = document.getElementById('task-list');
+                list.innerHTML = '';
+                tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.textContent = task.title;
+                    const delBtn = document.createElement('button');
+                    delBtn.textContent = 'Delete';
+                    delBtn.onclick = ()=>deleteTask(task.id);
+                    li.appendChild(delBtn);
+                    list.appendChild(li);
+                });
+
+            }
+
+            async function addTask() {
+                const title = document.getElementById('new-task').value;
+                if(!title) return ;
+                await fetch(API_URL,{
+                    method:'POST',
+                    headers:{ 'Content-Type': 'application/json'},
+                    body:JSON.stringify({title})
+                })
+                document.getElementById('new-task').value = '';
+                fetch_tasks()
+            }
+
+            async function deleteTask(id) {
+                await fetch(`${API_URL}/${id}`,{method:'DELETE'});
+                fetch_tasks()
+            }
+
+            fetch_tasks()
+        </script>
+    </body>
+
+</html>
