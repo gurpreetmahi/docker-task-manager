@@ -25,3 +25,4 @@ A containerized task management app demonstrating Docker skills.
    ```bash
    docker build -t task-manager-frontend:latest .
    docker run -p 80:80 task-manager-frontend:latest
+

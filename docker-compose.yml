@@ -1,8 +1,6 @@
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: gurpreetmahi/task-manager-backend:latest
     ports:
       - "5000:5000"
     environment:
@@ -20,9 +18,7 @@ services:
     networks:
       - app-network
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: gurpreetmahi/task-manager-frontend:latest
     ports:
       - "80:80"
     depends_on:
