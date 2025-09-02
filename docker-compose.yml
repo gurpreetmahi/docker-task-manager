@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    platform: linux/arm64
     ports:
       - "5000:5000"
     environment:
@@ -20,9 +21,10 @@ services:
     networks:
       - app-network
   frontend:
-    build: 
+    build:
       context: ./frontend
       dockerfile: Dockerfile
+    platform: linux/arm64
     ports:
       - "80:80"
     depends_on:
@@ -31,6 +33,7 @@ services:
       - app-network
   db:
     image: postgres:13
+    platform: linux/arm64
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
