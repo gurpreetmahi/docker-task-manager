@@ -18,3 +18,10 @@ A containerized task management app demonstrating Docker skills.
    ```bash
    docker build -t task-manager-backend:latest .
    docker run -p 5000:5000 task-manager-backend:latest
+
+### Running the Frontend
+1. Navigate to `frontend/`
+2. Build the Docker image:
+   ```bash
+   docker build -t task-manager-frontend:latest .
+   docker run -p 80:80 task-manager-frontend:latest
