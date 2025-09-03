@@ -1,11 +1,14 @@
 services:
   backend:
-    image: gurpreetmahi/task-manager-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     environment:
       - FLASK_ENV=production
       - DATABASE_URL=postgresql://user:password@db:5432/taskdb
+      - REDIS_URL=redis://redis:6379/0
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:5000/tasks"]
       interval: 10s
@@ -14,6 +17,8 @@ services:
       start_period: 10s
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - app-network
@@ -36,6 +41,16 @@ services:
       - db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d taskdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app-network
+  redis:
+    image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
