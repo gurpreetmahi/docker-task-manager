@@ -26,6 +26,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      - API_URL=http://mytasks.local/tasks
+      - SERVER_NAME=mytasks.local
     ports:
       - "80:80"
     depends_on:

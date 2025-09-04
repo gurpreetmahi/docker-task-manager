@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Task Manager</title>
+        <script src="/config.js"></script>
     </head>
     <body>
         <h1>Task Manager</h1>
@@ -10,10 +11,10 @@
         <input type="text" id="new-task" placeholder="Add new task">
         <button onclick="addTask()">Add</button>
         <script>
-            const API_URL = 'http://taskmanager.local/tasks';
+            
 
             async function fetch_tasks(){
-                const response = await fetch(API_URL);
+                const response = await fetch(window.API_URL);
                 const tasks  = await response.json();
                 const list  = document.getElementById('task-list');
                 list.innerHTML = '';
