@@ -1,5 +1,6 @@
 from nginx:alpine
 
-copy . /usr/share/nginx/html
+copy ./index.html /usr/share/nginx/html/
+COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 expose 80

@@ -116,6 +116,7 @@ This document summarizes the steps taken to develop and enhance a containerized 
 - **Application**: Fully containerized with Nginx frontend, Flask backend, and PostgreSQL database.
 - **Frontend**: Uses `http://localhost:5000/tasks` (workaround for `http://backend:5000` issue).
 - **Database**: Persistent via `db-data` volume.
+- **Cache: REDIS.
 - **CI/CD**: Pushes multi-arch images to Docker Hub.
 - **Architectures**: Supports `linux/arm64` (local) and `linux/amd64` (via CI/CD).
 

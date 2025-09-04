@@ -7,8 +7,7 @@ import redis
 import json
 
 app = Flask(__name__)
-CORS(app, resources={r"/tasks*": {"origins": "*"}})
-
+CORS(app, resources={r"/tasks*": {"origins": ["http://frontend", "http://localhost", "http://taskmanager.local"]}})
 # Database connection
 def get_db_connection():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])

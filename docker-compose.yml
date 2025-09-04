@@ -23,7 +23,9 @@ services:
     networks:
       - app-network
   frontend:
-    image: gurpreetmahi/task-manager-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     depends_on:

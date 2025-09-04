@@ -10,7 +10,7 @@
         <input type="text" id="new-task" placeholder="Add new task">
         <button onclick="addTask()">Add</button>
         <script>
-            const API_URL = 'http://localhost:5000/tasks';
+            const API_URL = 'http://taskmanager.local/tasks';
 
             async function fetch_tasks(){
                 const response = await fetch(API_URL);
