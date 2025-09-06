@@ -5,31 +5,49 @@ from psycopg2.extras import RealDictCursor
 import os
 import redis
 import json
+import time
 
 app = Flask(__name__)
-CORS(app, resources={r"/tasks*": {"origins": ["http://frontend", "http://localhost", "http://taskmanager.local"]}})
+CORS(app, resources={r"/tasks*": {"origins": ["http://*"]}})
 # Database connection
 def get_db_connection():
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    return conn
+    retries = 10
+    for i in range(retries):
+        try:
+            conn = psycopg2.connect(os.environ['DATABASE_URL'])
+            return conn
+        except psycopg2.OperationalError:
+            if i == retries - 1:
+                raise
+            time.sleep(2)
 
 # Redis connection
 redis_client = redis.Redis.from_url(os.environ['REDIS_URL'])
 
 # Initialize database
 def init_db():
-    with get_db_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("""
-                CREATE TABLE IF NOT EXISTS tasks (
-                    id SERIAL PRIMARY KEY,
-                    title VARCHAR(255) NOT NULL,
-                    done BOOLEAN DEFAULT FALSE
-                );
-            """)
-            conn.commit()
+    try:
+
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    CREATE TABLE IF NOT EXISTS tasks (
+                        id SERIAL PRIMARY KEY,
+                        title VARCHAR(255) NOT NULL,
+                        done BOOLEAN DEFAULT FALSE
+                    );
+                """)
+                conn.commit()
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+        time.sleep(5)
+        init_db()
 
 init_db()
+
+@app.route('/')
+def index():
+    return "Task Manager API"
 
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
