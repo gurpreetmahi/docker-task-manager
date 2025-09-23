@@ -37,7 +37,6 @@ services:
       - app-network
   db:
     image: postgres:15-alpine
-    platform: linux/arm64
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password

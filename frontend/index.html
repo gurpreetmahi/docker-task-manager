@@ -6,10 +6,93 @@
         <script src="/config.js"></script>
     </head>
     <body>
-        <h1>Task Manager</h1>
-        <ul id="task-list"></ul>
-        <input type="text" id="new-task" placeholder="Add new task">
-        <button onclick="addTask()">Add</button>
+        <div class="container">
+            <header>
+                <h1>My Test Manager</h1>
+                <p class="subtitle">Organize your tasks efficiently</p>
+            </header>
+            <div class="task-input">
+                <input type="text" id="new-task" placeholder="Add new task">
+                <button onclick="addTask()">Add</button>
+            </div>
+            <ul id="task-list"></ul>
+        </div>
+        <style>
+            body {
+                background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+                font-family: 'Segoe UI', Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 400px;
+                margin: 40px auto;
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+                padding: 32px 24px 24px 24px;
+            }
+            header h1 {
+                margin: 0 0 8px 0;
+                font-size: 2.2em;
+                color: #f76b1c;
+                text-align: center;
+                letter-spacing: 1px;
+            }
+            .subtitle {
+                text-align: center;
+                color: #888;
+                margin-bottom: 24px;
+            }
+            .task-input {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 18px;
+            }
+            #new-task {
+                flex: 1;
+                padding: 8px 12px;
+                border: 1px solid #eee;
+                border-radius: 6px;
+                font-size: 1em;
+            }
+            button {
+                background: #f76b1c;
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                padding: 8px 16px;
+                font-size: 1em;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+            button:hover {
+                background: #fda085;
+            }
+            #task-list {
+                list-style: none;
+                padding: 0;
+            }
+            #task-list li {
+                background: #f9f9f9;
+                margin-bottom: 10px;
+                padding: 10px 12px;
+                border-radius: 6px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            }
+            #task-list li button {
+                background: #e74c3c;
+                padding: 6px 12px;
+                font-size: 0.95em;
+                border-radius: 4px;
+            }
+            #task-list li button:hover {
+                background: #c0392b;
+            }
+        </style>
         <script>
             
 
@@ -20,14 +103,15 @@
                 list.innerHTML = '';
                 tasks.forEach(task => {
                     const li = document.createElement('li');
-                    li.textContent = task.title;
+                    const titleSpan = document.createElement('span');
+                    titleSpan.textContent = task.title;
+                    li.appendChild(titleSpan);
                     const delBtn = document.createElement('button');
                     delBtn.textContent = 'Delete';
                     delBtn.onclick = ()=>deleteTask(task.id);
                     li.appendChild(delBtn);
                     list.appendChild(li);
                 });
-
             }
 
             async function addTask() {
